@@ -71,7 +71,7 @@ const convert2googleCsvTransform = fileName => new Stream.Transform({
                       .map((e_ofDay, i_whichDay) => {
                           try {
                             return `${e_ofDay.split("\"")[1].split(`\n[`)[0]},${temp = getDate(weekNum, i_whichDay + 1)},${temp},${timeTable[i_whichPeriod]},${e_ofDay},${e_ofDay.slice(e_ofDay.lastIndexOf('[')  + 1, e_ofDay.lastIndexOf(']'))}`
-                            // Example: 精通口嗨,09/28/2020,10:21 AM,10:30 AM,精通口嗨[1-4节][-1-15周][Z5608],Z5608
+                            // Example: 精通口嗨,09/28/2020,09/28/2020,10:21 AM,10:30 AM,精通口嗨[1-4节][-1-15周][Z5608],Z5608
                             //NOTE: \n[ not the same as lineEnd. 😶
                           } catch (err) {
                             return '';
@@ -101,7 +101,7 @@ try {
                   .pipe(iconv.decodeStream('gb2312'))
                   .pipe(convert2googleCsvTransform(file))
               )
-        ])//.pipe(process.stdout)
+        ])
         .pipe(fs.createWriteStream('result.csv'))
 } catch (err) {
   console.error(err)
